@@ -16,6 +16,7 @@ import pprint
 import pdb
 import time
 import cv2
+import matplotlib.pyplot as plt
 import torch
 from torch.autograd import Variable
 import torch.nn as nn
@@ -57,7 +58,8 @@ def parse_args():
                       help='set config keys', default=None,
                       nargs=argparse.REMAINDER)
   parser.add_argument('--load_dir', dest='load_dir',
-                      help='directory to load models', default="/srv/share/jyang375/models",
+                      help='directory to load models',
+                      default=os.path.join(os.environ['HOME'], "faster-rcnn_models"),
                       nargs=argparse.REMAINDER)
   parser.add_argument('--cuda', dest='cuda',
                       help='whether use CUDA',
@@ -314,13 +316,17 @@ if __name__ == '__main__':
       sys.stdout.flush()
 
       if vis:
-          cv2.imwrite('result.png', im2show)
-          pdb.set_trace()
-          #cv2.imshow('test', im2show)
-          #cv2.waitKey(0)
+          # cv2.imwrite('result.png', im2show)
+          # pdb.set_trace()
+          # cv2.imshow('test', im2show)
+          # cv2.waitKey(0)
+          plt.imshow(im2show)
+          plt.show()
 
   with open(det_file, 'wb') as f:
       pickle.dump(all_boxes, f, pickle.HIGHEST_PROTOCOL)
+  # with open('output/res101/coco_2014_minival/faster_rcnn_10/detections.pkl', 'rb') as f:
+  #   all_boxes = pickle.load(f)
 
   print('Evaluating detections')
   imdb.evaluate_detections(all_boxes, output_dir)

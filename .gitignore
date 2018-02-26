@@ -1,3 +1,10 @@
 data/*
 *.pyc
 *~
+
+*.so
+*.o
+
+/_images
+/images_roy
+/output
